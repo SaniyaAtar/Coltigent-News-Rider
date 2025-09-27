@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  news-frontend-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+      - VITE_API_BASE_URL=http://host.docker.internal:8000/api/v1
+    volumes:
+      # Mount source code for hot reload
+      - .:/app
+      - /app/node_modules
+    networks:
+      - news-network
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+networks:
+  news-network:
+    driver: bridge
+
